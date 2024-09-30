@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators, FormArray, FormControl, AbstractControl } from '@angular/forms';
 import { ITarea } from '../../core/interfaces/ITarea';
 import { CommonModule } from '@angular/common';
+import { ServicioTareasService } from './../../core/services/servicio-tareas.service';
 
 @Component({
   selector: 'app-crear-tarea',
@@ -49,7 +50,8 @@ export class CrearTareaComponent implements OnInit{
   public nuevaHabilidad: FormControl = new FormControl('', Validators.required );
 
   constructor(
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private tareasServiceService: ServicioTareasService
   ){ }
 
   ngOnInit(): void {
@@ -138,13 +140,15 @@ export class CrearTareaComponent implements OnInit{
 
   guardarTarea() : void {
     const bodyRequest: ITarea = {
-      id:4,
+      id:this.tareasServiceService.arrayTareas.length+1,
       nombreTarea: this.formGroupTareas.get('nombreTarea')?.value || undefined ,
       fechaLimite: this.formGroupTareas.get('fechaTarea')?.value || undefined ,
       estado:false,
       personas: this.arrayPersonas
     }
     console.log(this.arrayPersonas)
+
+    this.tareasServiceService.agregarTarea = bodyRequest;
     this.arrayPersonas=[];
     this.formGroupTareas.reset();
     console.log(bodyRequest);
@@ -179,8 +183,8 @@ export class CrearTareaComponent implements OnInit{
     }
     else{
       return true;
-    }
-  }
+    }
+  }
 
 
 

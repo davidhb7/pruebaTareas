@@ -49,10 +49,11 @@
   <div class="card-body">
     <table class="table">
       <tbody>
+
         <!-- Recorrer tareas filtradas -->
         <ng-container *ngFor="let tarea of tareasFiltradas; index as i">
           <tr class="table-active">
-            <th scope="row">{{i + 1}}</th>
+            <th scope="row">{{ tarea.id }}</th>
 
             <td>
               <!-- Checkbox con estilo Bootstrap -->
@@ -68,12 +69,12 @@
             <td style="color: orange;"><strong>{{ tarea.fechaLimite }}</strong></td>
           </tr>
 
+          <!-- Mostrar personas asociadas -->
           <tr>
             <th scope="row"></th>
             <td><strong>Personas Asociadas:</strong></td>
           </tr>
 
-          <!-- Recorrer personas dentro de cada tarea -->
           <ng-container *ngFor="let persona of tarea.personas; index as i">
             <tr>
               <th scope="row"></th>
@@ -88,6 +89,7 @@
             </tr>
           </ng-container>
         </ng-container>
+
       </tbody>
     </table>
   </div>
