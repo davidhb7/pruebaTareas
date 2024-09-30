@@ -6,7 +6,7 @@
 
         <div class="col mb-3">
           <label for="nombreTarea" class="form-label">Nombre de la tarea (*)</label>
-          <input type="text" class="form-control" placeholder="Nombre completo" formControlName="nombreTarea">
+          <input type="text" class="form-control" placeholder="Nombre tarea" formControlName="nombreTarea">
           <div *ngIf="formGroupTareas.get('nombreTarea')?.invalid && formGroupTareas.get('nombreTarea')?.touched">
             <p *ngIf="formGroupTareas.get('nombreTarea')?.errors?.['required']" style="color: red;">Nombre es requerido.</p>
           </div>
