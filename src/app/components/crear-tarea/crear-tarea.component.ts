@@ -204,8 +204,6 @@ export class CrearTareaComponent implements OnInit{
     this.avisoPersonaNombreRepetido = "";
     // Reinicia el FormArray de personas
     const personasControl = this.formGroupTareas.get('personas') as FormArray;
-    personasControl.clear(); // Limpiar el FormArray de personas
-    // Reagregar el grupo inicial para personas
     personasControl.push(this.formBuilder.group({
       nombreCompleto: ['', Validators.required],
       edad: ['', [Validators.required, Validators.min(18)]],
