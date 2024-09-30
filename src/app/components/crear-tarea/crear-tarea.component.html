@@ -10,7 +10,7 @@
           <div *ngIf="formGroupTareas.get('nombreTarea')?.invalid && formGroupTareas.get('nombreTarea')?.touched">
             <p *ngIf="formGroupTareas.get('nombreTarea')?.errors?.['required']" style="color: red;">Nombre es requerido.</p>
           </div>
-          <h6 style="color: rgb(255, 123, 0);">{{avisoPersonaNombreRepetido}}</h6>
+
         </div>
 
 
@@ -34,6 +34,7 @@
             <div *ngIf="persona.get('nombreCompleto')?.invalid && persona.get('nombreCompleto')?.touched">
               <p *ngIf="persona.get('nombreCompleto')?.errors?.['required']" style="color: red;">Nombre es requerido.</p>
             </div>
+            <h6 style="color: rgb(255, 123, 0);">{{avisoPersonaNombreRepetido}}</h6>
           </div>
 
           <div class="col mb-3">

@@ -115,7 +115,7 @@ export class CrearTareaComponent implements OnInit{
       //INTERRUMPE GUARDADO SI EL NOMBRE YA EXISTE
       if (this.nombreRepetidoEnArrayPersonas(currentPersonaNombre)) {
         console.error('El nombre de la persona ya existe en arrayPersonas.');
-        this.avisoPersonaNombreRepetido="El nombre de la persona ya existe en arrayPersonas.";
+        this.avisoPersonaNombreRepetido="El nombre de la persona ya existe.";
         return;
       }
       //GUARDADO DE PERSONA EN ARREGLO Y LIMPIEZA DE FORMULARIO
