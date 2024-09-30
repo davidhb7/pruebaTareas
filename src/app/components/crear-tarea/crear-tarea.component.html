@@ -7,35 +7,54 @@
         <div class="col mb-3">
           <label for="nombreTarea" class="form-label">Nombre de la tarea (*)</label>
           <input type="text" class="form-control" placeholder="Nombre completo" formControlName="nombreTarea">
+          <div *ngIf="formGroupTareas.get('nombreTarea')?.invalid && formGroupTareas.get('nombreTarea')?.touched">
+            <p *ngIf="formGroupTareas.get('nombreTarea')?.errors?.['required']" style="color: red;">Nombre es requerido.</p>
+          </div>
+          <h6 style="color: rgb(255, 123, 0);">{{avisoPersonaNombreRepetido}}</h6>
         </div>
+
+
         <div class="col mb-3">
           <label for="fechaLimite" class="form-label">Fecha limite (*)</label>
           <input type="date" class="form-control" placeholder="Fecha limite" formControlName="fechaTarea"/>
+          <div *ngIf="formGroupTareas.get('fechaTarea')?.invalid && formGroupTareas.get('fechaTarea')?.touched">
+            <p *ngIf="formGroupTareas.get('fechaTarea')?.errors?.['required']" style="color: red;">Fecha es requerida.</p>
+          </div>
+
         </div>
       </div>
 
       <div formArrayName="personas">
         <div *ngFor="let persona of personas.controls; let i = index" [formGroupName]="i">
           <h3>Personas asociadas</h3>
+
           <div class="col mb-3" >
             <label for="nombreCompleto" class="form-label">Nombre completo (*)</label>
             <input type="text" class="form-control" formControlName="nombreCompleto">
+            <div *ngIf="persona.get('nombreCompleto')?.invalid && persona.get('nombreCompleto')?.touched">
+              <p *ngIf="persona.get('nombreCompleto')?.errors?.['required']" style="color: red;">Nombre es requerido.</p>
+            </div>
           </div>
+
           <div class="col mb-3">
             <label for="edad" class="form-label">Edad (*)</label>
             <input type="number" class="form-control" formControlName="edad">
+            <div *ngIf="persona.get('edad')?.invalid && persona.get('edad')?.touched">
+              <p *ngIf="persona.get('edad')?.errors?.['required']" style="color: red;">Edad es requerida.</p>
+            </div>
           </div>
 
           <div class="seccionHabilidad">
-            <h4>Habilidades</h4>
-            <h5>Agregar al menos 1 habilidad:</h5>
+            <h4>Habilidades (*)</h4>
+            <h6 style="color: rgb(255, 123, 0);">Agregar al menos 1 habilidad:</h6>
             <div class="camposHabilidad">
               <div class="col mb-3">
                 <input type="text" class="form-control" [formControl]="nuevaHabilidad" (keydown.enter)="addHabilidad(i)">
                 <button
                       type="button"
                       class="btn  btn-primary"
-                      (click)="addHabilidad(i)">
+                      (click)="addHabilidad(i)"
+                      >
                       Añadir habilidad
                 </button>
               </div>
@@ -54,10 +73,11 @@
               </div>
             </div>
           </div>
+
         </div>
       </div>
       <hr>
-      <button type="button" class="btn  btn-primary" (click)="addPersona()">Añadir persona </button>
+      <button type="button" class="btn  btn-primary" (click)="addPersona()"  [disabled]="!habilitarBotonAgregarPersona()">Añadir persona </button>
       <!-- <button type="submit" class="btn btn-danger">Eliminar persona </button> -->
 
 
@@ -74,7 +94,7 @@
 
       <hr>
 
-      <button type="button" class="btn btn-primary"  (click)="guardarTarea()">Guardar tarea</button>
+      <button type="button" class="btn btn-success"  (click)="guardarTarea()" [disabled]="habilitarguardar(arrayPersonas)">Guardar tarea</button>
 
     </form>
   </div>
