@@ -9,3 +9,6 @@
 
 # Informacion adicional:
 * Vacante de Desarrollo Front-End Angular
+
+# Link carpeta video (Drive):
+ * https://drive.google.com/drive/folders/1wV4SGqAvkt2ESsX0sY0LUQbPiY-ZD2Fy?usp=drive_link
