@@ -1,15 +1,9 @@
-
-
-
-
-
 <div class="card text-bg-light mb-3" style="max-width: 40rem;">
   <div class="card-header">
     <h3><strong>Lista de tareas</strong></h3>
   </div>
   <div class="card-header">
-    <h4>Filstros:</h4>
-
+    <h4>Filtros:</h4>
 
     <!-- Checkbox para todas las tareas -->
     <div class="form-check">
@@ -43,7 +37,7 @@
         class="form-check-input"
         type="checkbox"
         id="pendientes"
-        [checked]="esdestadoPendientes$ | async"
+        [checked]="estadoPendientes$ | async"
         (change)="seleccionarFiltro('pendientes')">
       <label class="form-check-label" for="pendientes">
         Tareas Pendientes
@@ -51,36 +45,27 @@
     </div>
   </div>
 
-  <!-- TODAS LAS TAREAS -->
+  <!-- Tabla de tareas filtradas -->
   <div class="card-body">
     <table class="table">
       <tbody>
-        <!-- Recorrer tareas -->
-        <ng-container *ngFor="let tarea of tareas; index as i">
+        <!-- Recorrer tareas filtradas -->
+        <ng-container *ngFor="let tarea of tareasFiltradas; index as i">
           <tr class="table-active">
-            <th scope="row">{{i+1}}</th>
+            <th scope="row">{{i + 1}}</th>
 
             <td>
               <!-- Checkbox con estilo Bootstrap -->
               <div class="form-check">
-                <input type="checkbox" class="form-check-input" id="check{{i}}" [checked]="tarea.estado"  (change)="cambioEstadotarea($event, tarea.id)">
-                <label class="form-check-label" for="check{{i}}" >
-                  @if(tarea.estado){
-                    Terminada
-                  }
-                  @else {
-                    Pendiente
-                  }
+                <input type="checkbox" class="form-check-input" id="check{{i}}" [checked]="tarea.estado" (change)="cambioEstadotarea($event, tarea.id)">
+                <label class="form-check-label" for="check{{i}}">
+                  {{ tarea.estado ? 'Terminada' : 'Pendiente' }}
                 </label>
               </div>
             </td>
 
-
-            <td >{{tarea.nombreTarea}}</td>
-            <td style="color: orange;"><strong>{{tarea.fechaLimite}}</strong></td>
-            <th scope="row"></th>
-            <th scope="row"></th>
-            <th scope="row"></th>
+            <td>{{ tarea.nombreTarea }}</td>
+            <td style="color: orange;"><strong>{{ tarea.fechaLimite }}</strong></td>
           </tr>
 
           <tr>
@@ -92,15 +77,14 @@
           <ng-container *ngFor="let persona of tarea.personas; index as i">
             <tr>
               <th scope="row"></th>
-              <td> - {{persona.nombreCompleto}}</td>
-              <td>({{persona.edad}} años)</td>
+              <td>- {{ persona.nombreCompleto }}</td>
+              <td>({{ persona.edad }} años)</td>
             </tr>
             <tr>
               <th scope="row"></th>
               <th scope="row"></th>
               <td>Habilidades:</td>
-              <td *ngFor="let habilidad of persona.habilidades">{{ habilidad }}
-              </td>
+              <td *ngFor="let habilidad of persona.habilidades">{{ habilidad }}</td>
             </tr>
           </ng-container>
         </ng-container>
@@ -108,5 +92,3 @@
     </table>
   </div>
 </div>
-
-

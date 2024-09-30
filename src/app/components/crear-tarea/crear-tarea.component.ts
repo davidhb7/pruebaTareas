@@ -65,7 +65,7 @@ export class CrearTareaComponent {
     return this.formBuilderTareas.group({
       nombreCompleto: [persona.nombreCompleto, [Validators.required, Validators.minLength(5)]],
       edad: [persona.edad, [Validators.required, Validators.min(18), Validators.pattern('[0-9]*'), Validators.min(2)]],
-      habilidades: [persona.habilidades.join(', '), Validators.required],
+      habilidades: [persona.habilidades.join(', '), Validators.required, Validators.min(1), Validators.length],
     });
   }
 

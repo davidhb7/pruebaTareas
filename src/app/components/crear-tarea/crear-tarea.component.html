@@ -8,22 +8,22 @@
 
         <div class="col mb-3">
           <label for="nombreTarea" class="form-label">Nombre de la tarea</label>
-          <input type="text" class="form-control" id="nombreTarea" aria-describedby="nombreTarea" >
+          <input type="text" class="form-control" placeholder="Nombre completo">
         </div>
         <div class="col mb-3">
           <label for="fechaLimite" class="form-label">Fecha limite</label>
-          <input type="date" class="form-control" id="fechaLimite" />
+          <input type="date" class="form-control" placeholder="Fecha limite"/>
         </div>
 
 
         <h3>Personas asociadas</h3>
         <div class="col mb-3">
           <label for="nombreCompleto" class="form-label">Nombre completo</label>
-          <input type="text" class="form-control" id="nombreCompleto" aria-describedby="nombreCompleto">
+          <input type="text" class="form-control">
         </div>
         <div class="col mb-3">
           <label for="edad" class="form-label">Edad </label>
-          <input class="form-control" id="edad">
+          <input type="number" class="form-control">
         </div>
 
       </div>
@@ -33,11 +33,11 @@
         <h5>Agregar al menos 1 habilidad:</h5>
         <div class="camposHabilidad">
           <div class="col mb-3">
-            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" >
+            <input type="text" class="form-control" >
             <button type="submit" class="btn  btn-primary">Añadir habilidad </button>
           </div>
           <div class="col mb-3">
-            <input class="form-control" id="exampleInputPassword1" style="margin-left: 10px;">
+            <input type="text" class="form-control" style="margin-left: 10px;">
             <button type="submit" class="btn btn-danger">Eliminar habilidad </button>
           </div>
         </div>
@@ -47,7 +47,7 @@
       <button type="submit" class="btn  btn-primary">Añadir persona </button>
       <button type="submit" class="btn btn-danger">Eliminar persona </button>
       <hr>
-      <button type="submit" class="btn btn-primary">Guardar tarea</button>
+      <button type="submit" class="btn btn-primary" [disabled]="formGroupTareas.invalid">Guardar tarea</button>
 
     </form>
 
