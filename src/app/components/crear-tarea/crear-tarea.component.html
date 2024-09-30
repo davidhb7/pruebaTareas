@@ -42,6 +42,9 @@
             <div *ngIf="persona.get('edad')?.invalid && persona.get('edad')?.touched">
               <p *ngIf="persona.get('edad')?.errors?.['required']" style="color: red;">Edad es requerida.</p>
             </div>
+            <div *ngIf="persona.get('edad')?.hasError('min') && persona.get('edad')?.touched">
+              <p style="color: red;">La edad debe ser mayor de 18 años.</p>
+            </div>
           </div>
 
           <div class="seccionHabilidad">
