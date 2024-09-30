@@ -92,7 +92,11 @@
         <button type="button" class="btn  btn-danger" (click)="eliminarPersona(i)">Eliminar persona </button>
       </div>
       <hr>
-      <button type="button" class="btn btn-success"  (click)="guardarTarea()" [disabled]="habilitarguardar(arrayPersonas)">Guardar tarea</button>
+      <div class="text-end">
+        <button type="button" class="btn btn-success"  (click)="guardarTarea()" [disabled]="habilitarguardar(arrayPersonas)">Guardar tarea</button>
+        <button type="button" class="btn btn-warning"  (click)="limpiarFormulario()" >Limpiar</button>
+      </div>
+
     </form>
   </div>
 </div>

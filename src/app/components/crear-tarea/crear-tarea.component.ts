@@ -197,6 +197,23 @@ export class CrearTareaComponent implements OnInit{
    }
   }
 
+  limpiarFormulario(): void {
+    this.formGroupTareas.reset();
+    this.arrayPersonas = [];
+    this.nuevaHabilidad.reset();
+    this.avisoPersonaNombreRepetido = "";
+    // Reinicia el FormArray de personas
+    const personasControl = this.formGroupTareas.get('personas') as FormArray;
+    personasControl.clear(); // Limpiar el FormArray de personas
+    // Reagregar el grupo inicial para personas
+    personasControl.push(this.formBuilder.group({
+      nombreCompleto: ['', Validators.required],
+      edad: ['', [Validators.required, Validators.min(18)]],
+      habilidades: this.formBuilder.array([])
+    }));
+    this.arrayPersonas=[]
+  }
+
 
 
 
