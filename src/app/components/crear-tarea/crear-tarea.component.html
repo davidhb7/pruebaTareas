@@ -1,1 +1,55 @@
-<p>crear-tarea works!</p>
+
+
+<div class="card text-bg-light mb-3" style="max-width: 40rem; ">
+  <div class="card-body">
+    <h3>Crear tarea nueva</h3>
+    <form   [formGroup]="formGroupTareas">
+      <div class="row mb-3">
+
+        <div class="col mb-3">
+          <label for="nombreTarea" class="form-label">Nombre de la tarea</label>
+          <input type="text" class="form-control" id="nombreTarea" aria-describedby="nombreTarea" >
+        </div>
+        <div class="col mb-3">
+          <label for="fechaLimite" class="form-label">Fecha limite</label>
+          <input type="date" class="form-control" id="fechaLimite" />
+        </div>
+
+
+        <h3>Personas asociadas</h3>
+        <div class="col mb-3">
+          <label for="nombreCompleto" class="form-label">Nombre completo</label>
+          <input type="text" class="form-control" id="nombreCompleto" aria-describedby="nombreCompleto">
+        </div>
+        <div class="col mb-3">
+          <label for="edad" class="form-label">Edad </label>
+          <input class="form-control" id="edad">
+        </div>
+
+      </div>
+
+      <div class="seccionHabilidad">
+        <h4>Habilidades</h4>
+        <h5>Agregar al menos 1 habilidad:</h5>
+        <div class="camposHabilidad">
+          <div class="col mb-3">
+            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" >
+            <button type="submit" class="btn  btn-primary">Añadir habilidad </button>
+          </div>
+          <div class="col mb-3">
+            <input class="form-control" id="exampleInputPassword1" style="margin-left: 10px;">
+            <button type="submit" class="btn btn-danger">Eliminar habilidad </button>
+          </div>
+        </div>
+        <h5>Habilidades de la persona:</h5>
+      </div>
+      <hr>
+      <button type="submit" class="btn  btn-primary">Añadir persona </button>
+      <button type="submit" class="btn btn-danger">Eliminar persona </button>
+      <hr>
+      <button type="submit" class="btn btn-primary">Guardar tarea</button>
+
+    </form>
+
+  </div>
+</div>

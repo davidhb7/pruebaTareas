@@ -1,7 +1,11 @@
 export interface ITarea{
-  nombreTarea:string,
-  fechaLimite:string,
-  estadoTarea:string,
-  personasAsignadas:[],
-
+  id: number;
+  nombreTarea: string;
+  estado:boolean;
+  fechaLimite:string;
+  personas: {
+    nombreCompleto: string;
+    edad: number;
+    habilidades: string[];
+  }[];
 }

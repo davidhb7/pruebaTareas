@@ -1,0 +1,19 @@
+h3{
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+h4{
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+button{
+  margin: 10px;
+}
+div.seccionHabilidad{
+  margin-left: 30px;
+}
+div.camposHabilidad{
+  display: flex;
+  margin-left: 20px;
+}

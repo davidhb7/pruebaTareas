@@ -1,1 +1,112 @@
-<p>lista-tareas works!</p>
+
+
+
+
+
+<div class="card text-bg-light mb-3" style="max-width: 40rem;">
+  <div class="card-header">
+    <h3><strong>Lista de tareas</strong></h3>
+  </div>
+  <div class="card-header">
+    <h4>Filstros:</h4>
+
+
+    <!-- Checkbox para todas las tareas -->
+    <div class="form-check">
+      <input
+        class="form-check-input"
+        type="checkbox"
+        id="todas"
+        [checked]="estadoTodas$ | async"
+        (change)="seleccionarFiltro('todas')">
+      <label class="form-check-label" for="todas">
+        Todas las tareas
+      </label>
+    </div>
+
+    <!-- Checkbox para tareas completadas -->
+    <div class="form-check">
+      <input
+        class="form-check-input"
+        type="checkbox"
+        id="completadas"
+        [checked]="estadoCompletadas$ | async"
+        (change)="seleccionarFiltro('completadas')">
+      <label class="form-check-label" for="completadas">
+        Tareas Completadas
+      </label>
+    </div>
+
+    <!-- Checkbox para tareas pendientes -->
+    <div class="form-check">
+      <input
+        class="form-check-input"
+        type="checkbox"
+        id="pendientes"
+        [checked]="esdestadoPendientes$ | async"
+        (change)="seleccionarFiltro('pendientes')">
+      <label class="form-check-label" for="pendientes">
+        Tareas Pendientes
+      </label>
+    </div>
+  </div>
+
+  <!-- TODAS LAS TAREAS -->
+  <div class="card-body">
+    <table class="table">
+      <tbody>
+        <!-- Recorrer tareas -->
+        <ng-container *ngFor="let tarea of tareas; index as i">
+          <tr class="table-active">
+            <th scope="row">{{i+1}}</th>
+
+            <td>
+              <!-- Checkbox con estilo Bootstrap -->
+              <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="check{{i}}" [checked]="tarea.estado"  (change)="cambioEstadotarea($event, tarea.id)">
+                <label class="form-check-label" for="check{{i}}" >
+                  @if(tarea.estado){
+                    Terminada
+                  }
+                  @else {
+                    Pendiente
+                  }
+                </label>
+              </div>
+            </td>
+
+
+            <td >{{tarea.nombreTarea}}</td>
+            <td style="color: orange;"><strong>{{tarea.fechaLimite}}</strong></td>
+            <th scope="row"></th>
+            <th scope="row"></th>
+            <th scope="row"></th>
+          </tr>
+
+          <tr>
+            <th scope="row"></th>
+            <td><strong>Personas Asociadas:</strong></td>
+          </tr>
+
+          <!-- Recorrer personas dentro de cada tarea -->
+          <ng-container *ngFor="let persona of tarea.personas; index as i">
+            <tr>
+              <th scope="row"></th>
+              <td> - {{persona.nombreCompleto}}</td>
+              <td>({{persona.edad}} años)</td>
+            </tr>
+            <tr>
+              <th scope="row"></th>
+              <th scope="row"></th>
+              <td>Habilidades:</td>
+              <td *ngFor="let habilidad of persona.habilidades">{{ habilidad }}
+              </td>
+            </tr>
+          </ng-container>
+        </ng-container>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
