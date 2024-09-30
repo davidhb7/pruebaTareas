@@ -1,55 +1,81 @@
-
-
 <div class="card text-bg-light mb-3" style="max-width: 40rem; ">
   <div class="card-body">
     <h3>Crear tarea nueva</h3>
-    <form   [formGroup]="formGroupTareas">
+    <form [formGroup]="formGroupTareas">
       <div class="row mb-3">
 
         <div class="col mb-3">
-          <label for="nombreTarea" class="form-label">Nombre de la tarea</label>
-          <input type="text" class="form-control" placeholder="Nombre completo">
+          <label for="nombreTarea" class="form-label">Nombre de la tarea (*)</label>
+          <input type="text" class="form-control" placeholder="Nombre completo" formControlName="nombreTarea">
         </div>
         <div class="col mb-3">
-          <label for="fechaLimite" class="form-label">Fecha limite</label>
-          <input type="date" class="form-control" placeholder="Fecha limite"/>
+          <label for="fechaLimite" class="form-label">Fecha limite (*)</label>
+          <input type="date" class="form-control" placeholder="Fecha limite" formControlName="fechaTarea"/>
         </div>
-
-
-        <h3>Personas asociadas</h3>
-        <div class="col mb-3">
-          <label for="nombreCompleto" class="form-label">Nombre completo</label>
-          <input type="text" class="form-control">
-        </div>
-        <div class="col mb-3">
-          <label for="edad" class="form-label">Edad </label>
-          <input type="number" class="form-control">
-        </div>
-
       </div>
 
-      <div class="seccionHabilidad">
-        <h4>Habilidades</h4>
-        <h5>Agregar al menos 1 habilidad:</h5>
-        <div class="camposHabilidad">
-          <div class="col mb-3">
-            <input type="text" class="form-control" >
-            <button type="submit" class="btn  btn-primary">Añadir habilidad </button>
+      <div formArrayName="personas">
+        <div *ngFor="let persona of personas.controls; let i = index" [formGroupName]="i">
+          <h3>Personas asociadas</h3>
+          <div class="col mb-3" >
+            <label for="nombreCompleto" class="form-label">Nombre completo (*)</label>
+            <input type="text" class="form-control" formControlName="nombreCompleto">
           </div>
           <div class="col mb-3">
-            <input type="text" class="form-control" style="margin-left: 10px;">
-            <button type="submit" class="btn btn-danger">Eliminar habilidad </button>
+            <label for="edad" class="form-label">Edad (*)</label>
+            <input type="number" class="form-control" formControlName="edad">
+          </div>
+
+          <div class="seccionHabilidad">
+            <h4>Habilidades</h4>
+            <h5>Agregar al menos 1 habilidad:</h5>
+            <div class="camposHabilidad">
+              <div class="col mb-3">
+                <input type="text" class="form-control" [formControl]="nuevaHabilidad" (keydown.enter)="addHabilidad(i)">
+                <button
+                      type="button"
+                      class="btn  btn-primary"
+                      (click)="addHabilidad(i)">
+                      Añadir habilidad
+                </button>
+              </div>
+            </div>
+            <h5>Habilidades de la persona:</h5>
+            <div class="mb-3 row">
+              <div class="col-sm-9" formArrayName="habilidades">
+                  <div class="mb-1" *ngFor="let habilidad of getHabilidades(i).controls; let j = index" style="display: flex; align-items: center;">
+                      <p style="margin: 0;">{{ j + 1 }}. {{ habilidad.value }}</p>
+                      <button (click)="eliminarHabilidad( i, j )"
+                              class="btn btn-outline-danger"
+                              type="button">
+                          Eliminar
+                      </button>
+                  </div>
+              </div>
+            </div>
           </div>
         </div>
-        <h5>Habilidades de la persona:</h5>
       </div>
       <hr>
-      <button type="submit" class="btn  btn-primary">Añadir persona </button>
-      <button type="submit" class="btn btn-danger">Eliminar persona </button>
+      <button type="button" class="btn  btn-primary" (click)="addPersona()">Añadir persona </button>
+      <!-- <button type="submit" class="btn btn-danger">Eliminar persona </button> -->
+
+
+      <div *ngFor="let persona of arrayPersonas let i = index">
+        <hr>
+        <h4>Detalles de la persona:</h4>
+        <ul>
+          <li *ngFor="let key of getCamposArray(persona)">
+            <strong>{{ key }}</strong>: {{ persona[key] }}
+          </li>
+        </ul>
+        <button type="button" class="btn  btn-danger" (click)="eliminarPersona(i)">Eliminar persona </button>
+      </div>
+
       <hr>
-      <button type="submit" class="btn btn-primary" [disabled]="formGroupTareas.invalid">Guardar tarea</button>
+
+      <button type="button" class="btn btn-primary"  (click)="guardarTarea()">Guardar tarea</button>
 
     </form>
-
-  </div>
+  </div>
 </div>
