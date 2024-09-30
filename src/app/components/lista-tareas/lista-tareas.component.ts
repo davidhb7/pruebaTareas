@@ -10,10 +10,13 @@ import { ServicioTareasService } from './../../core/services/servicio-tareas.ser
 })
 export class ListaTareasComponent implements OnInit {
 
+  //OBJETOS
   tareas: ITarea[] = [];
-  tareasFiltradas: ITarea[] = [];  // Inicializa las tareas filtradas
-  filtroActivo: 'todas' | 'completadas' | 'pendientes' = 'todas';  // Almacena el filtro activo
+  tareasFiltradas: ITarea[] = [];
+  filtroActivo: 'todas' | 'completadas' | 'pendientes' = 'todas';
 
+  //VARIABLES
+  //OBSERVA Y VERIFICA LOS ESTADOS DE LOS FILTROS
   private estadoTodas = new BehaviorSubject<boolean>(true);
   private estadoCompletadas = new BehaviorSubject<boolean>(false);
   private estadoPendientes = new BehaviorSubject<boolean>(false);
@@ -23,54 +26,59 @@ export class ListaTareasComponent implements OnInit {
   estadoPendientes$ = this.estadoPendientes.asObservable();
 
   constructor(
+    //INYECCION
     private tareasServiceService: ServicioTareasService
   ) {}
+
 
   ngOnInit(): void {
     this.cargarTareas();
   }
 
+  //CARGAR TAREAS ENVIADAS AL SERVICIO
   cargarTareas(): void {
     this.tareas = this.tareasServiceService.obtenerTareas;
-    this.aplicarFiltroActual();  // Aplica el filtro activo cuando se cargan las tareas
+    //ACTUALIZACION DE FILTROS SEGUN LA OBTENCION DE TAREAS Y SUS ESTADOS
+    this.aplicarFiltroActual();
   }
 
-  // Método para cambiar el estado de la tarea
+  //ACTUALIZACION DE ESTDO DE LA TAREA POR INDEX
   cambioEstadotarea(event: any, id: number): void {
     const tarea = this.tareas.find(t => t.id === id);
     if (tarea) {
-      tarea.estado = event.target.checked;  // Actualiza el estado
-      this.tareasServiceService.actualizarEstadoTarea(id, tarea.estado);  // Actualiza el estado en el servicio
-      this.aplicarFiltroActual();  // Aplica el filtro activo nuevamente
+      tarea.estado = event.target.checked;
+      this.tareasServiceService.actualizarEstadoTarea(id, tarea.estado);
+      this.aplicarFiltroActual();
     }
   }
 
-  // Filtrar tareas según el checkbox seleccionado
+  //FUNCIONALIDAD DE FILTRO
   seleccionarFiltro(filtro: 'todas' | 'completadas' | 'pendientes') {
-    this.filtroActivo = filtro;  // Actualiza el filtro activo
-    this.aplicarFiltroActual();  // Aplica el filtro seleccionado
+    this.filtroActivo = filtro;
+    this.aplicarFiltroActual();
   }
 
-  // Método para aplicar el filtro actual basado en el filtro activo
+
+  //INTERCALADO DE CHECKBOX SEGUN EL FILTRO SELECCIONADO PARA VER LAS TAREAS
   aplicarFiltroActual() {
     switch (this.filtroActivo) {
       case 'todas':
         this.estadoTodas.next(true);
         this.estadoCompletadas.next(false);
         this.estadoPendientes.next(false);
-        this.tareasFiltradas = [...this.tareas];  // Mostrar todas las tareas
+        this.tareasFiltradas = [...this.tareas];
         break;
       case 'completadas':
         this.estadoTodas.next(false);
         this.estadoCompletadas.next(true);
         this.estadoPendientes.next(false);
-        this.tareasFiltradas = this.tareas.filter(t => t.estado);  // Filtrar tareas completadas
+        this.tareasFiltradas = this.tareas.filter(t => t.estado);
         break;
       case 'pendientes':
         this.estadoTodas.next(false);
         this.estadoCompletadas.next(false);
         this.estadoPendientes.next(true);
-        this.tareasFiltradas = this.tareas.filter(t => !t.estado);  // Filtrar tareas pendientes
+        this.tareasFiltradas = this.tareas.filter(t => !t.estado);
         break;
     }
   }

@@ -4,6 +4,8 @@ import { ITarea } from '../../core/interfaces/ITarea';
 import { CommonModule } from '@angular/common';
 import { ServicioTareasService } from './../../core/services/servicio-tareas.service';
 
+
+//COMPONENTE DECLARADO COMO STANDALONE Y SUS IMPORTACIONES INDEPENDIENTES QUE SOLO ESTE NECESITA.
 @Component({
   selector: 'app-crear-tarea',
   templateUrl: './crear-tarea.component.html',
@@ -19,15 +21,12 @@ import { ServicioTareasService } from './../../core/services/servicio-tareas.ser
 export class CrearTareaComponent implements OnInit{
   //OBJETOS - CLASES
   formGroupTareas!: FormGroup;
-
-
   arrayPersonas: any[] = [];
   objePersonas:{
     nombreCompleto: '',
     edad: 18,
     habilidades: []
   }[]=[]
-
   tareas: ITarea[] = [
     {
       id: 0,
@@ -43,6 +42,7 @@ export class CrearTareaComponent implements OnInit{
       ]
     }
   ];
+
   //VARIABLES
   avisoPersonaNombreRepetido="";
   guardar:boolean=false;
@@ -50,7 +50,8 @@ export class CrearTareaComponent implements OnInit{
   public nuevaHabilidad: FormControl = new FormControl('', Validators.required );
 
   constructor(
-    private fb: FormBuilder,
+    //INYECCIONES
+    private formBuilder: FormBuilder,
     private tareasServiceService: ServicioTareasService
   ){ }
 
@@ -58,132 +59,142 @@ export class CrearTareaComponent implements OnInit{
     this.buildForm();
   }
 
+  //INICICIALIZACNDO  VALIDACIONES DEL OBJETO Y LAS CONDICIONES DE CADA CAMPO
   buildForm(): void {
-    this.formGroupTareas = this.fb.group({
+    this.formGroupTareas = this.formBuilder.group({
       nombreTarea: ['', Validators.required],
       fechaTarea: ['', Validators.required],
-      personas: this.fb.array([
-        this.fb.group({
+      personas: this.formBuilder.array([
+        this.formBuilder.group({
           nombreCompleto: ['', Validators.required],
           edad: ['', [Validators.required, Validators.min(18)]],
-          habilidades: this.fb.array([])
+          habilidades: this.formBuilder.array([])
         }),
       ])
     });
   }
 
+  //METODO get PARA OBTENCION DE LAS PERSONAS DENTRO DE TAREAS COMO FORMARRAY.
+  //ACCEDSO AL formArray DE PERSONAS
   get personas() {
     return this.formGroupTareas.get('personas') as FormArray;
   }
 
+  //METODO PARA OBTENCION DE HABILIDADES DENTRO PERSONAS(formGroup), CON REFERENCIA INDEX DE LA PERSONA.
+  //ACCESO DE HABILIDADES DENTRO DEL formGroup DE PERSONAS
   getHabilidades(indexPersona: number): FormArray {
     return this.personas.at(indexPersona).get('habilidades') as FormArray;
   }
 
+  //AGREGAR HABILIDAD POR INDEX DE ARREGLO
   addHabilidad(indexPersona: number) {
-    // console.log(this.nuevaHabilidad.value)
-    const habilidad = this.nuevaHabilidad.value; // Obtener el valor del input
+    const habilidad = this.nuevaHabilidad.value;
     if (habilidad) {
-      // Acceder al FormArray de habilidades de la persona correspondiente y agregar la nueva habilidad
-      this.getHabilidades(indexPersona).push(this.fb.control(habilidad, Validators.required));
-      this.nuevaHabilidad.reset(); // Limpiar el campo de input
+
+      this.getHabilidades(indexPersona).push(this.formBuilder.control(habilidad, Validators.required));
+      this.nuevaHabilidad.reset();
     }
   }
 
+  //VALIDACION PERSONALIZADA DE NOMBRE REPETIDO DE PERSONA POR TAREA.
+  //PARAMETRO DE NOMBRE EN EL FORM
   nombreRepetidoEnArrayPersonas(nombre: string): boolean {
-    // Verifica si ya existe una persona con el mismo nombre en arrayPersonas
+    //some VERIFICA EL CUMPLIMIENTO DE LA CONDICION DENTRO DEL ARRAY
     return this.arrayPersonas.some(persona => persona.nombreCompleto === nombre);
   }
 
-
-
-
-
+  //AGREGAR PERSONA DENTRO DEL FORM
   addPersona(): void {
     this.avisoPersonaNombreRepetido="";
+    //VERIFICA LA EXISTENCIA DE UNA PERSONA EN EL formArray de PERSONAS
     const personasControl = this.formGroupTareas.get('personas') as FormArray;
+    //EXISTENCIA DE DATOS HAY/NO HAY
     if (personasControl) {
+      //VALIDACION DE NOMBRE REPETIDO DE PERSONA.
       const currentPersonaNombre = personasControl.at(personasControl.length - 1).get('nombreCompleto')?.value;
-
-      // Verifica si el nombre ya existe en arrayPersonas
+      //INTERRUMPE GUARDADO SI EL NOMBRE YA EXISTE
       if (this.nombreRepetidoEnArrayPersonas(currentPersonaNombre)) {
         console.error('El nombre de la persona ya existe en arrayPersonas.');
         this.avisoPersonaNombreRepetido="El nombre de la persona ya existe en arrayPersonas.";
-        return; // Si el nombre está repetido, no permite agregar
+        return;
       }
-
-      // Agrega la última persona en el FormArray a arrayPersonas
-      const currentPersona = personasControl.at(personasControl.length - 1).value; // Obtiene el último FormGroup como objeto
-      this.arrayPersonas.push(currentPersona); // Agrega la persona como un objeto
-      // Reinicia el FormArray de personas y las habilidades de la última persona
+      //GUARDADO DE PERSONA EN ARREGLO Y LIMPIEZA DE FORMULARIO
+      //ACCESO DE ELEMENTO PERSONA
+      const currentPersona = personasControl.at(personasControl.length - 1).value;
+      this.arrayPersonas.push(currentPersona);
       this.personas.reset();
       this.resetHabilidades(personasControl.length - 1);
-      console.log(this.arrayPersonas); // Muestra el array actualizado
+      console.log(this.arrayPersonas);
       this.avisoPersonaNombreRepetido="";
     } else {
       console.error('El FormArray de personas no está definido.');
     }
   }
 
+  //ELIMINACION DE HABILIDAD POR INDEX DENTRO DE PERSONA EN CUESTION
   eliminarHabilidad(indexPersona: number, indexHabilidad: number) {
     this.getHabilidades(indexPersona).removeAt(indexHabilidad);
   }
 
+  //LIMPIEZA DE HABILIDADES POR PERSONA
   resetHabilidades(indexPersona: number) {
     const personasControl = this.formGroupTareas.get('personas') as FormArray;
 
     if (personasControl && personasControl.length > indexPersona) {
       const habilidadesArray = personasControl.at(indexPersona).get('habilidades') as FormArray;
-      habilidadesArray.clear(); // Vacía el FormArray de habilidades
+      habilidadesArray.clear();
     }
   }
 
+  //GUARDADO DE TAREA COMPLETA JUNTO A PERSONAS Y HABILIDADES CORRESPONDIENTES A PERSONAS
   guardarTarea() : void {
     const bodyRequest: ITarea = {
+      //OBTENCION DE DATOS DENTRO DE LOS CAMPOS DE TAREA
       id:this.tareasServiceService.arrayTareas.length+1,
       nombreTarea: this.formGroupTareas.get('nombreTarea')?.value || undefined ,
       fechaLimite: this.formGroupTareas.get('fechaTarea')?.value || undefined ,
       estado:false,
       personas: this.arrayPersonas
     }
-    console.log(this.arrayPersonas)
-
     this.tareasServiceService.agregarTarea = bodyRequest;
     this.arrayPersonas=[];
     this.formGroupTareas.reset();
-    console.log(bodyRequest);
   }
 
+  //RECORRIDO DE PERSONAS DENTRO DE LA TAREA, EXTRAE LOS CAMPOS DEL ARREGLO QUE ENTRA POR PARAMETRO
+  //MUESTRA LAS PERSONAS QUE SE VAN CREANDO DENTRO DE LA TAREA EN CUESTION
   getCamposArray(objetoPersona: any): string[] {
     return Object.keys(objetoPersona);
   }
 
 
-  // Método para eliminar una persona en función de su índice
+  //ELIMINACION DE PERSONA CON INDEZ POR PARAMETRO
   eliminarPersona(index: number): void {
     this.arrayPersonas.splice(index, 1);
   }
 
+  //ACTIVACION BOTON AGREGAR PERSONA. CUMPLIR EL MINIMO DE HABILIDADES
   habilitarBotonAgregarPersona(): boolean {
-    let habilitado = true;  // Asume que está habilitado
-    // Recorre cada persona en el FormArray de personas
+    let habilitado = true;
+
     this.personas.controls.forEach((persona, index) => {
-      const habilidades = this.getHabilidades(index);  // Obtén las habilidades de la persona actual
-      // Si alguna persona no tiene habilidades, deshabilita el botón
+      const habilidades = this.getHabilidades(index);
+
       if (habilidades.length === 0) {
         habilitado = false;
       }
     });
-    return habilitado;  // El botón estará habilitado solo si todas las personas tienen al menos una habilidad
+    return habilitado;
   }
 
+  //HABILIDAR GUARDAR TAREA. COMO MINIMO UNA PERSONA
   habilitarguardar(arr:any[]){
     if(arr.length>=1){
       return false;
     }
     else{
       return true;
-    }
+   }
   }
 
 

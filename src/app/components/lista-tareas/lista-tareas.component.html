@@ -5,7 +5,6 @@
   <div class="card-header">
     <h4>Filtros:</h4>
 
-    <!-- Checkbox para todas las tareas -->
     <div class="form-check">
       <input
         class="form-check-input"
@@ -18,7 +17,6 @@
       </label>
     </div>
 
-    <!-- Checkbox para tareas completadas -->
     <div class="form-check">
       <input
         class="form-check-input"
@@ -31,7 +29,6 @@
       </label>
     </div>
 
-    <!-- Checkbox para tareas pendientes -->
     <div class="form-check">
       <input
         class="form-check-input"
@@ -45,18 +42,15 @@
     </div>
   </div>
 
-  <!-- Tabla de tareas filtradas -->
   <div class="card-body">
     <table class="table">
       <tbody>
 
-        <!-- Recorrer tareas filtradas -->
         <ng-container *ngFor="let tarea of tareasFiltradas; index as i">
           <tr class="table-active">
             <th scope="row">{{ tarea.id }}</th>
 
             <td>
-              <!-- Checkbox con estilo Bootstrap -->
               <div class="form-check">
                 <input type="checkbox" class="form-check-input" id="check{{i}}" [checked]="tarea.estado" (change)="cambioEstadotarea($event, tarea.id)">
                 <label class="form-check-label" for="check{{i}}">
@@ -69,7 +63,6 @@
             <td style="color: orange;"><strong>{{ tarea.fechaLimite }}</strong></td>
           </tr>
 
-          <!-- Mostrar personas asociadas -->
           <tr>
             <th scope="row"></th>
             <td><strong>Personas Asociadas:</strong></td>
@@ -89,7 +82,6 @@
             </tr>
           </ng-container>
         </ng-container>
-
       </tbody>
     </table>
   </div>

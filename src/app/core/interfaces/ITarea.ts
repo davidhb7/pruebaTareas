@@ -1,3 +1,4 @@
+//INTERFAZ ESTRUCTURA BASE DEL OBJETO A TRABAJAR
 export interface ITarea{
   id: number;
   nombreTarea: string;

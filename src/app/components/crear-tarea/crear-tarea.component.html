@@ -73,14 +73,10 @@
               </div>
             </div>
           </div>
-
         </div>
       </div>
       <hr>
       <button type="button" class="btn  btn-primary" (click)="addPersona()"  [disabled]="!habilitarBotonAgregarPersona()">Añadir persona </button>
-      <!-- <button type="submit" class="btn btn-danger">Eliminar persona </button> -->
-
-
       <div *ngFor="let persona of arrayPersonas let i = index">
         <hr>
         <h4>Detalles de la persona:</h4>
@@ -91,11 +87,8 @@
         </ul>
         <button type="button" class="btn  btn-danger" (click)="eliminarPersona(i)">Eliminar persona </button>
       </div>
-
       <hr>
-
       <button type="button" class="btn btn-success"  (click)="guardarTarea()" [disabled]="habilitarguardar(arrayPersonas)">Guardar tarea</button>
-
     </form>
   </div>
 </div>
